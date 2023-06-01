@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const port = process.env.PORT || 3001
+const cors = require('cors')
 
 // Mongoose Database
 mongoose.connect(process.env.DATABASE_URL, {
@@ -16,12 +17,9 @@ mongoose.connection.once('open', ()=>{
 })
 
 // Middleware
-app.use(express.json())
-app.use((req, res, next)=>{
-    console.log("I'm da middleware")
-    next()
-})
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(cors())
 
 // Routes
 app.use('/todos', require('./controllers/ToDos'))
